@@ -1,3 +1,19 @@
+function curry2(func) {
+    return function(secondArg) {
+        return function(firstArg) {
+            return func(firstArg, secondArg)
+        }
+    }
+}
+
+const greaterThan = curry2(function (l, r) {
+    return l > r;
+});
+
+const lessThan = curry2(function (l, r) {
+    return l < r;
+});
+
 /**
  * 每个 rule 都是一个校验方法，返回校验结果 result
  */
@@ -70,7 +86,8 @@ const awlvalidator = {
             const min = params.min || 0;
             const errorMsg = params.errorMsg || ('不可小于' + params.min);
 
-            if (value < params.min) {
+            const lessThanMin = lessThan(min);
+            if (lessThanMin(value)) {
                 return {
                     valid: false,
                     msg: errorMsg
@@ -87,7 +104,9 @@ const awlvalidator = {
             const max = params.max || 0;
             const errorMsg = params.errorMsg || ('不可大于' + params.max);
 
-            if (value > params.max) {
+            const greaterThanMax = greaterThan(max);
+
+            if (greaterThanMax(value)) {
                 return {
                     valid: false,
                     msg: errorMsg
