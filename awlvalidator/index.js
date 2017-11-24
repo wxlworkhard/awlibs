@@ -1,3 +1,6 @@
+import _curry from 'lodash/curry';
+
+// 向右柯里化
 function curry2(func) {
     return function(secondArg) {
         return function(firstArg) {
@@ -10,50 +13,20 @@ const greaterThan = curry2(function (l, r) {
     return l > r;
 });
 
-const lessThan = curry2(function (l, r) {
+// 向左柯里化，支持部分应用
+const lessThan = _curry(function (l, r) {
     return l < r;
 });
 
 /**
  * 每个 rule 都是一个校验方法，返回校验结果 result
  */
-
-/**
- * let rules = [
- *  awlvalidator.ruleGetter('required', value, {
- *      errorMsg: '请输入xxx',
- *  }),
- *  awlvalidator.ruleGetter('decimal2', value),
- *  awlvalidator.ruleGetter('min', value, {
- *      min: 100
- *  }),
- *  awlvalidator.ruleGetter('maxLength', value),
- * ];
- * let result = awlvalidator.validate(rules);
- *
- * 结果为：{
- *  valid: true/false,
- *  msg: '格式错误'
- * }
- */
-
 const awlvalidator = {
-    ruleGetter(ruleName, value, params) {
-        return () => {
-            if (ruleName != 'required' && !value && value !== 0) {
-                return {
-                    valid: true,
-                    msg: ''
-                }
-            }
-            return this.ruleMap[ruleName].call(null, value, {
-                ...params
-            });
-        };
-    },
-
     ruleMap: {
         required(value, params) {
+            params = {
+                ...params
+            };
             const errorMsg = params.errorMsg || '必填字段';
             if (!value) {
                 return {
@@ -86,8 +59,7 @@ const awlvalidator = {
             const min = params.min || 0;
             const errorMsg = params.errorMsg || ('不可小于' + params.min);
 
-            const lessThanMin = lessThan(min);
-            if (lessThanMin(value)) {
+            if (lessThan(value, min)) {
                 return {
                     valid: false,
                     msg: errorMsg
@@ -136,26 +108,57 @@ const awlvalidator = {
             };
         },
     },
+    ruleGetter(ruleName, params, customRule) {
+        let customRuleMap = {};
 
-    validate(rules) {
+        if (!this.ruleMap[ruleName]) {
+            if (typeof customRule == 'function') {
+                console.log(`自定义规则${ruleName}`);
+                customRuleMap[ruleName] = customRule;
+            } else {
+                throw `不存在规则${ruleName}`;
+            }
+        }
+
+        return (value) => {
+            if (ruleName != 'required' && !value && value !== 0) {
+                return {
+                    valid: true,
+                    msg: ''
+                }
+            }
+
+            const rule = customRuleMap[ruleName] || this.ruleMap[ruleName];
+            return rule(value, { ...params });
+        };
+    },
+
+    // 生成校验方法
+    validateGetter() {
+        const rules = [].slice.call(arguments, 0);
+
         let result = {
             valid: true,
             msg: ''
         };
 
-        rules.some((item) => {
-            let tmpResult = item();
-
-            if (!tmpResult.valid) {
+        return (value) => {
+            rules.some((item) => {
                 result = {
-                    ...tmpResult
+                    ...result,
+                    ...item(value)
                 };
-                return true;
-            }
-        });
 
-        return result;
-    }
+                if (!result.valid) {
+                    return true;
+                }
+            });
+
+            return result;
+        };
+    },
+
+
 };
 
 export default awlvalidator;

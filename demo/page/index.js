@@ -1,14 +1,24 @@
 import awlvalidator from '../../awlvalidator';
 
 
-var a = awlvalidator.ruleMap['min'](1, {
-    min: 1000
-});
 
+const value = '100';
 
-var b = awlvalidator.ruleMap['max'](100, {
-    max: 5
-});
+const result = awlvalidator.validateGetter(
+    awlvalidator.ruleGetter('xxx', null, (value, params) => {
+        console.log('xxx');
+    }),
+    awlvalidator.ruleGetter('required'),
+    awlvalidator.ruleGetter('min', {
+        min: 0
+    }),
+    awlvalidator.ruleGetter('decimal2'),
+    awlvalidator.ruleGetter('max', {
+        max: 500
+    }),
+    awlvalidator.ruleGetter('maxLength', {
+        maxLength: 5
+    }),
+)(value);
 
-console.log(a);
-console.log(b);
+console.log(result);
