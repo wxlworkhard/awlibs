@@ -1,5 +1,6 @@
 import awlvalidator from '../../awlvalidator';
 
+import formhandler from '../../formhandler';
 
 
 const value = '100';
@@ -21,4 +22,8 @@ const result = awlvalidator.validateGetter(
     }),
 )(value);
 
-console.log(result);
+// console.log(result);
+
+
+
+
