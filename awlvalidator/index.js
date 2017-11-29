@@ -107,6 +107,23 @@ const awlvalidator = {
                 msg: ''
             };
         },
+
+        minLength(value, params) {
+            const minLength = params.minLength || 0;
+            const errorMsg = params.errorMsg || ('不可少于' + params.minLength + '字符');
+
+            if (value.length < params.minLength) {
+                return {
+                    valid: false,
+                    msg: errorMsg
+                };
+            }
+
+            return {
+                valid: true,
+                msg: ''
+            };
+        },
     },
     ruleGetter(ruleName, params, customRule) {
         let customRuleMap = {};
