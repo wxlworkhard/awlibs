@@ -3,17 +3,17 @@ import awlvalidator from '../../awlvalidator';
 import formhandler from '../../formhandler';
 
 
-const value = '100';
+const value = '12';
 
 const result = awlvalidator.validateGetter(
     awlvalidator.ruleGetter('xxx', null, (value, params) => {
         console.log('xxx');
     }),
     awlvalidator.ruleGetter('required'),
-    awlvalidator.ruleGetter('min', {
-        min: 0
-    }),
-    awlvalidator.ruleGetter('decimal2'),
+    // awlvalidator.ruleGetter('min', {
+    //     min: 0
+    // }),
+    awlvalidator.ruleGetter('integer'),
     awlvalidator.ruleGetter('max', {
         max: 500
     }),
@@ -22,7 +22,7 @@ const result = awlvalidator.validateGetter(
     }),
 )(value);
 
-// console.log(result);
+console.log(result);
 
 
 

@@ -39,6 +39,21 @@ const awlvalidator = {
                 msg: ''
             };
         },
+        
+        integer(value, params) {
+            const errorMsg = params.errorMsg || '格式错误';
+
+            if (!/^(0|[1-9]\d*)$/.test(value)) {
+                return {
+                    valid: false,
+                    msg: errorMsg
+                };
+            }
+            return {
+                valid: true,
+                msg: ''
+            };
+        },
 
         decimal2(value, params) {
             const errorMsg = params.errorMsg || '格式错误';
