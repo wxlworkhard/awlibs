@@ -106,7 +106,7 @@ function argsValidate(getAsyncTaskArray, tagKey, onAsyncOperateTagChange) {
     }
 }
 
-function fetchInterceptorFactory(configs) {
+function factory(configs) {
     return {
         configs: {
             ...configs,
@@ -116,4 +116,4 @@ function fetchInterceptorFactory(configs) {
     };
 }
 
-export default fetchInterceptorFactory;
+export default factory;
