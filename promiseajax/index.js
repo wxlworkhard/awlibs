@@ -1,30 +1,17 @@
-import _ from 'lodash';
 import Ajax from './ajax';
 
-function ErrorFactory(type) {
-    this.type = type;
-    return this;
-}
-
 function sendAjax(type, params) {
-    var params = _.assign({}, params, {
+    var params = Object.assign({}, params, {
         type
     });
     var _uid = +new Date();
 
     var promise = new Promise(function(resolve, reject) {
-        Ajax(_.assign({}, params, {
+        Ajax(Object.assign({}, params, {
             success: function(resData) {
                 resolve(resData);
-                // if (resData && resData.resCode === 0) {
-                //     resolve(resData);
-                // } else {
-                //     var error = new ErrorFactory('resCode');
-                //     reject(error);
-                // }
             },
-            error: function() {
-                var error = new ErrorFactory('res');
+            error: function(error) {
                 reject(error);
             }
         }));

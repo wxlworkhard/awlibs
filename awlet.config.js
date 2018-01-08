@@ -1,12 +1,5 @@
 module.exports = function () {
     return {
-        pageList: [
-            {
-                title: 'demo',
-                srcPrefix: './demo/',
-                src: './demo/page/index.js'
-            }
-        ],
         devServer: {
             port: 8866,
         },

@@ -1,6 +1,6 @@
-import awlvalidator from '../../awlvalidator';
+import awlvalidator from '../../../awlvalidator';
 
-import formhandler from '../../formhandler';
+import formhandler from '../../../formhandler';
 
 
 const value = '12';
@@ -26,4 +26,4 @@ console.log(result);
 
 
 
-
+import fetchinterceptorFactory from '../../../fetchinterceptor';

@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 var AJAX_OPTIONS = {
     url: '',
     type: 'GET',
@@ -10,23 +8,21 @@ var AJAX_OPTIONS = {
     params: null
 };
 
-
-
 function Ajax(options) {
-    var options = _.assign({}, AJAX_OPTIONS, options);
-    
+    var options = Object.assign({}, AJAX_OPTIONS, options);
+
     var xhr = null;
     if (window.XMLHttpRequest) {
         xhr = new XMLHttpRequest();
     } else {
         // xhr = new ActiveXObject('Microsoft.XMLHTTP')
     }
-    
+
     options.type = options.type.toUpperCase();
     (options.contentType.indexOf('json') != -1) && (options.contentType = 'application/json');
-    
+
     options.params = serializeParams(options);
-    
+
     if (options.type == 'GET') {
         options.url += (options.params ? 
                         getUrlConnector(options.url) + options.params : 
@@ -62,7 +58,7 @@ function Ajax(options) {
     if (options.type == 'POST') {
         xhr.setRequestHeader('Content-Type', options.contentType);
     }
-    
+
     // 使用 v 参数的方式防止缓存，该方式跨域请求时需要服务端做相关配置
     // if (options.type == 'GET' && !options.cache) {
     //     xhr.setRequestHeader('If-Modified-Since', '0');
@@ -73,12 +69,12 @@ function Ajax(options) {
 
 function ajaxSuccess(data, xhr, options) {
     var context = options.context;
-    options.success.call(context, data, status, xhr);
+    options.success.call(context, data, xhr, options);
 }
 
 function ajaxError(error, xhr, options) {
     var context = options.context;
-    options.error.call(context, xhr, error);
+    options.error.call(context, error ? error : xhr, options);
 }
 
 function getUrlConnector(url) {
@@ -89,15 +85,15 @@ function serializeParams(options) {
     var type = options.type;
     var params = options.params || {};
     var contentType = options.contentType;
-    
+
     if (type == 'POST' && contentType == 'application/json') {
         return JSON.stringify(params);
     }
-    
+
     if (type == 'GET' && !options.cache) {
         params['v'] = +new Date();
     }
-    
+
     var s = [],
         add = function (key, value) {
             s[s.length] = encodeURIComponent(key) + '=' + encodeURIComponent(value);
