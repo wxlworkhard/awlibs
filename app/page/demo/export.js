@@ -27,3 +27,13 @@ console.log(result);
 
 
 import fetchinterceptorFactory from '../../../fetchinterceptor';
+
+
+
+import Lazychain from 'module/lazychain';
+
+const x1 = new Lazychain([1,2]).tap((target) => {
+    return target.concat('xxx');
+}).force();
+
+console.log(x1);
