@@ -116,4 +116,5 @@ function factory(configs) {
     };
 }
 
-export default factory;
+// export default factory; // 为了兼容 node 服务端，使用 CommonJS 规范
+module.exports = factory;
