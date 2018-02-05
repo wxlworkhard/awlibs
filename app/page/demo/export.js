@@ -25,11 +25,6 @@ const result = awlvalidator.validateGetter(
 console.log(result);
 
 
-
-import fetchinterceptorFactory from '../../../fetchinterceptor';
-
-
-
 import Lazychain from 'module/lazychain';
 
 const x1 = new Lazychain([1,2]).tap((target) => {
@@ -37,3 +32,5 @@ const x1 = new Lazychain([1,2]).tap((target) => {
 }).force();
 
 console.log(x1);
+
+
