@@ -1,1 +1,1 @@
-[{"id":1,"title":"MFE","src":"./app/page/demo/export.js","srcPrefix":"./app/page/","template":"./awlet.template.ejs","extra":null}]
+[{"id":1,"title":"demo","src":"./app/page/demo/export.js","srcPrefix":"./app/page/","template":"./awlet.template.ejs","extra":null},{"id":2,"title":"pcurry","src":"./app/page/pcurry/export.js","srcPrefix":"./app/page/","template":"./awlet.template.ejs","extra":null}]

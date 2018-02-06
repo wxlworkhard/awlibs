@@ -1,7 +1,7 @@
+//*awlet*//{"title": "demo"}//*awlet*//
+
 import awlvalidator from '../../../awlvalidator';
-
 import formhandler from '../../../formhandler';
-
 
 const value = '12';
 
@@ -22,8 +22,6 @@ const result = awlvalidator.validateGetter(
     }),
 )(value);
 
-console.log(result);
-
 
 import Lazychain from 'module/lazychain';
 
@@ -32,5 +30,3 @@ const x1 = new Lazychain([1,2]).tap((target) => {
 }).force();
 
 console.log(x1);
-
-
