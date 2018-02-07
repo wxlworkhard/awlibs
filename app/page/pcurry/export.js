@@ -2,26 +2,34 @@
 
 import pcurry from '../../../pcurry';
 
-var c = pcurry(new Promise((resolve, reject) => {
-    resolve(a);
-}), 2);
 
-var c1 = c((data) => {
-    console.log('resolve c1', data);
-    return 'c1';
-}, (data) => {
-    console.log('reject c1');
-    return 'c1';
-})
+// 先定义方法
+// 方法不依赖调用者 promise，可以应用在任何一个 promise 对象
+// 这样这些方法的代码可以复用
+// 使用柯里化可以在任意粒度实现复用
+const decorate = pcurry((promise) => {
+    return promise.then((data) => {
+        let msg = 'resolve1'
+        console.log(msg, data);
+        return msg;
+    }, () => {
 
-var c2 = c1((data) => {
-    console.log('resolve c2', data);
-    return 'c2';
-}, () => {
-    console.log('reject c2', data);
-    return 'c2';
+    });
+})((promise) => {
+    return promise.then((data) => {
+        let msg = 'resolve2';
+        console.log(msg, data);
+        return msg;
+    });
 });
 
-c2.then((data) => {
-    console.log('resolve n', data)
-})
+console.log(decorate);
+
+
+const promise = decorate(new Promise((resolve) => {
+    let msg = 'begin';
+    console.log(msg);
+    resolve(msg);
+}));
+
+console.log(promise);

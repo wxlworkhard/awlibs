@@ -1,3 +1,5 @@
+// 不再维护，请使用 atinterceptor
+
 function setConfigs(key, value) {
     return {
         ...this,

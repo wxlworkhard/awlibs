@@ -1,4 +1,4 @@
-import _curry from 'lodash/curry';
+import _curry from 'lodash.curry';
 
 // 向右柯里化
 function curry2(func) {

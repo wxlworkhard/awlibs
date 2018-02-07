@@ -1,19 +1,25 @@
-module.exports = function pcurry(promise, length) {
-    length = length || 1;
+module.exports = function pcurry() {
+    const flows = [];
+    return recursive(arguments[0], flows);
 
-    return recursive(promise, length);
+    function recursive() {
+        let target = arguments[0];
+        const flows = arguments[1];
 
-    function recursive(promise, length) {
-        if (length > 0) {
+        if (typeof target == 'function' ) {
+            flows.push(target);
+
             return function() {
-                length -= 1;
-                const onResolved = typeof arguments[0] == 'function' ? arguments[0] : undefined;
-                const onRejected = typeof arguments[1] == 'function' ? arguments[1] : undefined;
-                promise = promise.then(onResolved, onRejected);
-                return recursive(promise, length);
+                return recursive(arguments[0], flows);
             }
-        } else {
-            return promise;
+        }
+
+        if (target && typeof target.then == 'function') {
+            flows.forEach((func) => {
+                target = func(target);
+            });
+
+            return target;
         }
     }
 }
