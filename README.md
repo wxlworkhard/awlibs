@@ -2,8 +2,8 @@
   <h3 align="center">Awlibs</h3>
 
   <p align="center">
-    基础工具库
-  </p>
+    A base tools library.
+  </p>
 </p>
 
 ## Table of contents
@@ -14,10 +14,9 @@
 - [Atinterceptor](#atinterceptor)
 - [Awlvalidator](#awlvalidator)
 - [Formhandler](#formhandler)
-- [Community](#community)
-- [Versioning](#versioning)
-- [Creators](#creators)
-- [Copyright and license](#copyright-and-license)
+- [Lazychain](#lazychain)
+- [Pcurry](#pcurry)
+- [Promiseajax](#promiseajax)
 
 ## Quick start
 
@@ -38,7 +37,6 @@
 ```
 const atinterceptor = require('awlibs/atinterceptor');
 const asyncTaskTrigger = atinterceptor();
-// atinterceptor(asyncTag, configs)
 
 asyncTaskTrigger(() => {
   return [
@@ -46,10 +44,12 @@ asyncTaskTrigger(() => {
   ];
 }, true, 'getList').then((result) => {
 });
-// asyncTaskTrigger(getAsyncTaskArray, repeat, tagKey, onAsyncTagChange)
 ```
 
 #### 参数
+`const asyncTaskTrigger = atinterceptor(asyncTag, configs)`    
+`asyncTaskTrigger(getAsyncTaskArray, repeat, tagKey, onAsyncTagChange)`
+
 <table>
     <thead>
         <tr>
@@ -138,11 +138,10 @@ const validator = awlvalidator.validateGetter(
 const result = validator(value);
 ```
 
-`awlvalidator.validateGetter(rule1, rule2, ..., ruleN)` 接收任意数量的校验规则，生成校验方法。
-
+#### 参数
+`awlvalidator.validateGetter(rule1, rule2, ..., ruleN)` 接收任意数量的校验规则，生成校验方法。    
 `awlvalidator.ruleGetter(ruleName, params, handler)` 生成校验规则。
 
-#### 参数
 <table>
     <thead>
         <tr>
@@ -158,9 +157,7 @@ const result = validator(value);
             <td>true</td>
             <td>String</td>
           <td>
-            规则名称，内置 <br>
-            <code> 'required', 'integer', 'decimal2', 'min', 'max', 'maxLength', 'minLength'</code> <br>
-            规则，可以自定义
+            规则名称，内置 <code> 'required', 'integer', 'decimal2', 'min', 'max', 'maxLength', 'minLength'</code> 规则，可以自定义
           </td>
         </tr>
         <tr>
@@ -213,12 +210,10 @@ const age = handler('age', rawAge, {
 // 'wxl' --> 'My name is wxl.'
 // 100   --> 120
 ```
-
-`formhandler.dispatch(handler1, handler2, ..., handlerN)` 组合处理器。
-
+#### 参数
+`formhandler.dispatch(handler1, handler2, ..., handlerN)` 组合处理器。    
 `formhandler.register(name, callback)` 注册单个处理器。
 
-#### 参数
 <table>
     <thead>
         <tr>
@@ -244,10 +239,175 @@ const age = handler('age', rawAge, {
     </tbody>
 </table>
 
+## Lazychain
+
+惰性求值的小工具。
+
+#### 代码示例
+
+```
+const Lazychain = require('module/lazychain').default;
+
+const lc = new Lazychain([1, 2]).tap((target) => {
+    return target.concat('xxx');
+}).tap((target) => {
+    return target.join('*');
+}).tap((target) => {
+    return target + '__';
+})
+
+const ret = lc.force();
+// ret = '1*2*xxx__'
+```
+
+#### 参数
+`new Lacychain(target).tap(handler).tap(handler2)` 把处理器添加到待执行的队列。    
+`force` 执行函数队列。
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>target</td>
+            <td>true</td>
+            <td>Any</td>
+            <td>待处理的数据</td>
+        </tr>
+        <tr>
+            <td>handler</td>
+            <td>true</td>          
+            <td>Function</td>          
+            <td>对 target 的处理逻辑</td>
+        </tr>
+    </tbody>
+</table>
 
 
+## Pcurry
+
+针对 Promise 的柯里化工具，预先定义处理器，不需要在每次 Promise 完成后都重复写处理逻辑。
+
+#### 代码示例
+
+```
+const pcurry = require('module/pcurry');
+
+const decorateA = pcurry((promise) => {
+    return promise.then((data) => {
+        let msg = data + ':handlerA';
+        console.log(msg);
+        return msg;
+    });
+});
+
+const decorateAB = decorateA((promise) => {
+    return promise.then((data) => {
+        let msg = data + ':handlerB';
+        console.log(msg);
+        return msg;
+    });
+});
 
 
-- Install with [Composer](https://getcomposer.org/): `composer require twbs/bootstrap:4.0.0`
-- Install with [Composer](https://getcomposer.org/): `composer require twbs/bootstrap:4.0.0`
-- Install with [Composer](https://getcomposer.org/): `composer require twbs/bootstrap:4.0.0`
+const promise = decorateAB(new Promise((resolve) => {
+    let msg = 'begin';
+    console.log(msg);
+    resolve(msg);
+}));
+```
+
+#### 参数
+`pcurry(handlerA)(handlerB)(promise)`
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>handler*</td>
+            <td>true</td>
+            <td>Function</td>
+            <td>预先定义的处理器，以一个 Promise 对象为参数，并返回该参数对象</td>
+        </tr>
+        <tr>
+            <td>promise</td>
+            <td>true</td>          
+            <td>Promise</td>          
+            <td>处理器的参数</td>
+        </tr>
+    </tbody>
+</table>
+
+## Promiseajax
+
+基于 Promise 的轻量级 Ajax 库。
+
+#### 代码示例
+
+```
+import { get as ajaxGet, post as ajaxPost } from 'module/promiseajax';
+
+ajaxPost({
+    url: '/apis/getList',
+    contentType: 'json',
+    params: {
+        pageNo: 1,
+        pageSize: 20
+    }
+}).then((res) => {
+    console.log(res);
+});
+
+
+ajaxGet({
+    url: '/apis/getInfo',
+}).then((res) => {
+    console.log(res);
+});
+```
+
+#### 参数
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>url</td>
+            <td>true</td>
+            <td>String</td>
+            <td>请求地址</td>
+        </tr>
+        <tr>
+            <td>contentType</td>
+            <td>false</td>          
+            <td>String</td>          
+            <td>编码方式，默认值是 x-www-form-urlencoded</td>
+        </tr>
+        <tr>
+            <td>params</td>
+            <td>false</td>          
+            <td>Object</td>          
+            <td>请求参数</td>
+        </tr> 
+    </tbody>
+</table>
