@@ -4,7 +4,7 @@ const formhandler = require('module/formhandler').default;
 
 const handler = formhandler.dispatch(
     formhandler.register('name', (key, value, params) => {
-        return 'My name is ' + value;
+        return 'My name is ' + value + '.';
     }),
 
     formhandler.register('age', (key, value, params) => {
@@ -21,5 +21,9 @@ const rawAge = 100;
 const age = handler('age', rawAge, {
     base: 20
 });
+
+
+// 'wxl' --> 'My name is wxl.'
+// 100   --> 120
 
 console.log(name, age);

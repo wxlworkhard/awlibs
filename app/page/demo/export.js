@@ -27,7 +27,7 @@ const validate = awlvalidator.validateGetter(
 
 const result = validate(value);
 
-console.log(result);
+// console.log(result);
 
 
 
@@ -36,12 +36,15 @@ console.log(result);
 
 
 
+const Lazychain = require('module/lazychain').default;
 
+const lc = new Lazychain([1, 2]).tap((target) => {
+    return target.concat('xxx');
+}).tap((target) => {
+    return target.join('*');
+}).tap((target) => {
+    return target + '__';
+})
+const ret = lc.force();
 
-
-// import Lazychain from 'module/lazychain';
-
-// const x1 = new Lazychain([1,2]).tap((target) => {
-//     return target.concat('xxx');
-// }).force();
-
+console.log(ret);
