@@ -85,7 +85,7 @@ asyncTaskTrigger(() => {
             <td>repeat</td>
             <td>true</td>          
             <td>Boolean</td>          
-            <td>对同一个异步任务是否允许重复执行</td>
+            <td>对同一个异步任务是否允许重复执行，允许重复执行值为 true</td>
         </tr>
         <tr>
             <td>tagKey</td>
@@ -316,11 +316,12 @@ const decorateAB = decorateA((promise) => {
 });
 
 
-const promise = decorateAB(new Promise((resolve) => {
+decorateAB(new Promise((resolve) => {
     let msg = 'begin';
     console.log(msg);
     resolve(msg);
-}));
+})).then((result) => {
+});
 ```
 
 #### 参数
