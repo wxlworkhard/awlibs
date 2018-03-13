@@ -28,7 +28,7 @@ const awlvalidator = {
                 ...params
             };
             const errorMsg = params.errorMsg || '必填字段';
-            if (!value) {
+            if (value == null || value === '') {
                 return {
                     valid: false,
                     msg: errorMsg
@@ -107,6 +107,7 @@ const awlvalidator = {
         },
 
         maxLength(value, params) {
+            value = value.toString();
             const maxLength = params.maxLength || 0;
             const errorMsg = params.errorMsg || ('不可多于' + params.maxLength + '字符');
 
@@ -124,6 +125,7 @@ const awlvalidator = {
         },
 
         minLength(value, params) {
+            value = value.toString();
             const minLength = params.minLength || 0;
             const errorMsg = params.errorMsg || ('不可少于' + params.minLength + '字符');
 
@@ -153,7 +155,7 @@ const awlvalidator = {
         }
 
         return (value) => {
-            if (ruleName != 'required' && !value && value !== 0) {
+            if (ruleName != 'required' && (value == null || value === '')) {
                 return {
                     valid: true,
                     msg: ''
