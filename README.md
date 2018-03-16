@@ -646,6 +646,6 @@ setTimeout(() => {
     cvd.flow(cvdParams);
     console.log(cvd.getStore());
 }, 2000);
+
 ```
-
-
+以上代码可以直接运行，这里只给出了简单例子，在特别复杂的表单场景有过应用。
