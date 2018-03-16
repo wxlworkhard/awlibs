@@ -1,6 +1,6 @@
 //*awlet*//{"title": "promiseajax"}//*awlet*//
 
-import { get as ajaxGet, post as ajaxPost } from 'module/promiseajax';
+import { get as ajaxGet, post as ajaxPost } from 'awlibs/promiseajax';
 
 
 ajaxPost({

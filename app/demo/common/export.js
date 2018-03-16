@@ -1,6 +1,6 @@
-//*awlet*//{"title": "demo"}//*awlet*//
+//*awlet*//{"title": "common"}//*awlet*//
 
-import awlvalidator from '../../../awlvalidator';
+import awlvalidator from 'awlibs/awlvalidator';
 
 const value = 'xxx';
 const validate = awlvalidator.validateGetter(
@@ -36,7 +36,7 @@ const result = validate(value);
 
 
 
-const Lazychain = require('module/lazychain').default;
+const Lazychain = require('awlibs/lazychain').default;
 
 const lc = new Lazychain([1, 2]).tap((target) => {
     return target.concat('xxx');

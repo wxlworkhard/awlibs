@@ -45,9 +45,7 @@ CVD.prototype.flow = function (params) {
         });
     });
 
-    lc.force();
-
-    return this.getStore();
+    return lc.force();
 }
 
 

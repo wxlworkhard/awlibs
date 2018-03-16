@@ -1,7 +1,7 @@
 //*awlet*//{"title": "pcurry"}//*awlet*//
 
 
-const pcurry = require('module/pcurry');
+const pcurry = require('awlibs/pcurry');
 
 const decorateA = pcurry((promise) => {
     return promise.then((data) => {
