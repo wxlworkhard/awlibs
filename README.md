@@ -27,7 +27,7 @@
 [![npm version](https://img.shields.io/npm/v/awlibs.svg)](https://www.npmjs.com/package/awlibs)
 
 ## What's included
-包含 atinterceptor、awlvalidator、formhandler、lazychain、pcurry、promiseajax、cvd 6 个工具库，下面分别介绍。
+包含 atinterceptor、awlvalidator、formhandler、lazychain、pcurry、promiseajax、cvd 等工具库，下面分别介绍。
 
 ## Atinterceptor
 
