@@ -29,14 +29,7 @@ const result = validate(value);
 
 // console.log(result);
 
-
-
-
-
-
-
-
-const Lazychain = require('awlibs/lazychain').default;
+const Lazychain = require('awlibs/lazychain');
 
 const lc = new Lazychain([1, 2]).tap((target) => {
     return target.concat('xxx');

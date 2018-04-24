@@ -125,4 +125,4 @@ function serializeParams(options) {
     }
     return s.join('&');
 };
-export default Ajax;
+module.exports = Ajax;

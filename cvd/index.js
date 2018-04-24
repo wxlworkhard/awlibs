@@ -1,5 +1,5 @@
-import formhandler from '../formhandler';
-import Lazychain from '../lazychain';
+const formhandler = require('../formhandler');
+const Lazychain = require('../lazychain');
 
 
 function CVD(store) {

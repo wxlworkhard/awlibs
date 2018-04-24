@@ -16,4 +16,4 @@ Lazychain.prototype.tap = function (fun) {
     return this;
 }
 
-export default Lazychain;
+module.exports = Lazychain;

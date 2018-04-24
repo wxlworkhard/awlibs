@@ -1,6 +1,6 @@
 //*awlet*//{"title": "formhandler"}//*awlet*//
 
-const formhandler = require('awlibs/formhandler').default;
+const formhandler = require('awlibs/formhandler');
 
 const handler = formhandler.dispatch(
     formhandler.register('name', (key, value, params) => {

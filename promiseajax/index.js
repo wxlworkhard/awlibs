@@ -1,4 +1,4 @@
-import Ajax from './ajax';
+const Ajax = require('./ajax');
 
 function sendAjax(type, params) {
     var params = Object.assign({}, params, {
@@ -27,7 +27,7 @@ function post(params) {
     return sendAjax('post', params);
 }
 
-export {
+module.exports = {
     get,
     post
 };

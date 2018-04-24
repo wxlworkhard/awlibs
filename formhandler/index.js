@@ -30,7 +30,7 @@ function register(key, func) {
     }
 }
 
-export default {
+module.exports = {
     dispatch,
     register
 }

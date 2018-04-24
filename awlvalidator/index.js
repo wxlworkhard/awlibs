@@ -1,4 +1,4 @@
-import _curry from 'lodash.curry';
+const _curry = require('lodash.curry');
 
 // 向右柯里化
 function curry2(func) {
@@ -194,5 +194,4 @@ const awlvalidator = {
 
 
 };
-
-export default awlvalidator;
+module.exports = awlvalidator;

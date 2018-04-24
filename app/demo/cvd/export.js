@@ -1,8 +1,8 @@
 //*awlet*//{"title": "cvd"}//*awlet*//
 
 const CVD = require('awlibs/cvd');
-const awlvalidator = require('awlibs/awlvalidator').default;
-const Lazychain = require('awlibs/lazychain').default;
+const awlvalidator = require('awlibs/awlvalidator');
+const Lazychain = require('awlibs/lazychain');
 
 /**
  * 注册每一层的 handler 对 store 进行修改
