@@ -662,6 +662,7 @@ const Tree = require('awlibs/tree');
 
 /**
  * 嵌套表示的树形数据源
+ * 父节点通过 children 数组引用子节点
  * 只有父 -> 子关系，没有子 -> 父关系
  */
 const treeData1 = [
@@ -681,6 +682,7 @@ const treeData1 = [
     }
 ];
 
+// 构造 Tree 实例，参数意义见下文参数列表
 const treeIst1 = new Tree({
     type: 'nested',
     idKey: 'id',
@@ -688,7 +690,7 @@ const treeIst1 = new Tree({
     childrenKey: 'children',
     data: treeData1,
 });
-
+// 获取处理后的数据结构，包含完整的父 -> 子、子 -> 父关系
 const ret1 = treeIst1.getData();
 console.log(ret1);
 
