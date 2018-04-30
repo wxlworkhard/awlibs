@@ -1,8 +1,11 @@
 //*awlet*//{"title": "树形结构处理"}//*awlet*//
-import Tree from 'awlibs/tree';
+const Tree = require('awlibs/tree');
 
-
-var tree1 = [
+/**
+ * 嵌套表示的树形数据源
+ * 只有父 -> 子关系，没有子 -> 父关系
+ */
+const treeData1 = [
     {
         name: 'L1',
         children: [
@@ -19,8 +22,23 @@ var tree1 = [
     }
 ];
 
+const treeIst1 = new Tree({
+    type: 'nested',
+    idKey: 'id',
+    pIdKey: 'pId',
+    childrenKey: 'children',
+    data: treeData1,
+});
 
-var tree2 = [
+const ret1 = treeIst1.getData();
+console.log(ret1);
+
+
+/**
+ * 扁平表示的树形数据源
+ * 只有子 -> 父关系，没有父 -> 子关系
+ */
+var treeData2 = [
     { id: 1, name: 'L1' },
     { id: 2, pId: 1, name: 'L2_1' },
     { id: 3, pId: 2, name: 'L3_1' },
@@ -30,26 +48,12 @@ var tree2 = [
 
 ];
 
-console.log(tree1);
-const treeInstance1 = new Tree({
-    type: 'nested',
-    idKey: 'id',
-    pIdKey: 'pId',
-    childrenKey: 'children',
-    data: tree1,
-});
-
-const ret1 = treeInstance1.getData();
-console.log(ret1);
-
-
-console.log(tree2);
-const treeInstance2 = new Tree({
+const treeIst2 = new Tree({
     type: 'flattened',
     idKey: 'id',
     pIdKey: 'pId',
     childrenKey: 'children',
-    data: tree2,
+    data: treeData2,
 });
-const ret2 = treeInstance2.getData();
+const ret2 = treeIst2.getData();
 console.log(ret2);
