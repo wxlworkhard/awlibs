@@ -18,6 +18,7 @@
 - [Pcurry](#pcurry)
 - [Promiseajax](#promiseajax)
 - [CVD](#cvd)
+- [Tree](#tree)
 
 ## Quick start
 
@@ -649,3 +650,120 @@ setTimeout(() => {
 
 ```
 以上代码可以直接运行，这里只给出了简单例子，在特别复杂的表单场景有过应用。
+
+## Tree
+
+JS 树形数据结构操作库，可以根据嵌套或者扁平的结构，生成一个包含完整父子关系的图形结构；只有数据层，不涉及 UI 部分，可以在前端、Node 使用。
+
+#### 代码示例
+
+```
+const Tree = require('awlibs/tree');
+
+/**
+ * 嵌套表示的树形数据源
+ * 父节点通过 children 数组引用子节点
+ * 只有父 -> 子关系，没有子 -> 父关系
+ */
+const treeData1 = [
+    {
+        name: 'L1',
+        children: [
+            {
+                name: 'L2_1',
+                children: [ { name: 'L3_1'} ]
+            },
+
+            {
+                name: 'L2_2',
+                children: [ { name: 'L3_1' } ]
+            },
+        ]
+    }
+];
+
+// 构造 Tree 实例，参数意义见下文参数列表
+const treeIst1 = new Tree({
+    type: 'nested',
+    idKey: 'id',
+    pIdKey: 'pId',
+    childrenKey: 'children',
+    data: treeData1,
+});
+// 获取处理后的数据结构，包含完整的父 -> 子、子 -> 父关系
+const ret1 = treeIst1.getData();
+console.log(ret1);
+
+
+/**
+ * 扁平表示的树形数据源
+ * 只有子 -> 父关系，没有父 -> 子关系
+ */
+var treeData2 = [
+    { id: 1, name: 'L1' },
+    { id: 2, pId: 1, name: 'L2_1' },
+    { id: 3, pId: 2, name: 'L3_1' },
+
+    { id: 4, pId: 1, name: 'L2_2' },
+    { id: 5, pId: 4, name: 'L3_1' },
+
+];
+
+const treeIst2 = new Tree({
+    type: 'flattened',
+    idKey: 'id',
+    pIdKey: 'pId',
+    childrenKey: 'children',
+    data: treeData2,
+});
+const ret2 = treeIst2.getData();
+console.log(ret2);
+
+```
+
+#### 参数
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>type</td>
+            <td>true</td>
+            <td>String</td>
+            <td>指明树形数据源的表示方式，支持两个值 'nested'（嵌套）、'flattened'（扁平） </td>
+        </tr>
+        <tr>
+            <td>idKey</td>
+            <td>false</td>          
+            <td>String</td>          
+            <td>数据源每个节点的唯一标志的 key 默认是 'id'，若数据源没有提供唯一标志，则根据 key 值自动生成</td>
+        </tr>
+        <tr>
+            <td>pIdKey</td>
+            <td>false</td>
+            <td>String</td>          
+            <td>建立节点子 -> 父的关系，默认值是 'pId'</td>
+        </tr>
+        <tr>
+            <td>childrenKey</td>
+            <td>false</td>
+            <td>String</td>          
+            <td>建立节点父 -> 子的关系，默认值是 'children'</td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>true</td>
+            <td>Array</td>          
+            <td>树形结构数据源，可以是嵌套或者扁平结构，可以参考代码示例：treeData1（嵌套）、treeData2（扁平）</td>
+        </tr>
+   </tbody>
+</table>
+
+treeData1 和 treeData2 经过处理会生成相同的数据结构，包含了完整的父子关系，可以是后续的业务逻辑处理更加方便。
