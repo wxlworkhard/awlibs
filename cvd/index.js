@@ -55,7 +55,8 @@ CVD.prototype.initConnector = function (connectorHandle) {
         let { key, value, params } = args;
         let { model } = this.store;
 
-        let cRet = connectorHandle(key, value, params, this.store);
+        // let cRet = connectorHandle(key, value, params, this.store);
+        let cRet = typeof connectorHandle == 'function' ? connectorHandle(key, value, params, this.store) : null;
         cRet = cRet == null ? value : cRet;
 
         if (Object.keys(model).indexOf(key) != -1) {
@@ -91,7 +92,9 @@ CVD.prototype.initValidator = function (validatorHandle) {
             msg: ''
         };
 
-        vRet = validatorHandle(key, cRet, params) || vRet;
+        // vRet = validatorHandle(key, cRet, params) || vRet;
+        let tmp = typeof validatorHandle == 'function' ? validatorHandle(key, cRet, params) : null;
+        vRet = tmp || vRet;
 
         desc = {
             ...desc,
@@ -115,7 +118,8 @@ CVD.prototype.initDependency = function (dependencyHandle) {
         let { key, cRet, params } = args;
         let { desc } = this.store;
 
-        let store = dependencyHandle(key, cRet, params, this.store);
+        // let store = dependencyHandle(key, cRet, params, this.store);
+        let store = typeof dependencyHandle == 'function' ? dependencyHandle(key, cRet, params, this.store) : null;
 
         this.store = {
             ...this.store,
